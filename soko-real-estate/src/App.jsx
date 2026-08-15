@@ -1,31 +1,30 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Properties from "./pages/Properties";
-import PropertyDetails from "./pages/PropertyDetails";
-import UploadProperty from "./pages/UploadProperty";
-import MyProperties from "./pages/MyProperties";
-import EditProperty from "./pages/EditProperty";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminAnalytics from "./pages/AdminAnalytics";
-import MapView from "./pages/MapView"; // ⬅️ ADD
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import VerifyEmail from "./pages/VerifyEmail";
-import ResendVerification from "./pages/ResendVerification";
-import Contact from "./pages/Contact";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+import Home from "./pages/home";
+import Properties from "./pages/properties";
+import PropertyDetails from "./pages/propertydetails";
+import UploadProperty from "./pages/uploadproperty";
+import MyProperties from "./pages/myproperties";
+import EditProperty from "./pages/editproperty";
+import AdminDashboard from "./pages/admindashboard";
+import AdminAnalytics from "./pages/adminanalytics";
+import MapView from "./pages/mapview";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import VerifyEmail from "./pages/verifyemail";
+import ResendVerification from "./pages/resendverification";
+import Contact from "./pages/contact";
+import ForgotPassword from "./pages/forgotpassword";
+import ResetPassword from "./pages/resetpassword";
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
+import ProtectedRoute from "./components/protectedroute";
+import AdminRoute from "./components/adminroute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
@@ -36,9 +35,8 @@ function App() {
         <Route path="/resend-verification" element={<ResendVerification />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/map" element={<MapView />} /> {/* ⬅️ ADD */}
+        <Route path="/map" element={<MapView />} />
 
-        {/* Protected Routes (require login) */}
         <Route
           path="/upload"
           element={
@@ -64,7 +62,6 @@ function App() {
           }
         />
 
-        {/* Admin Routes (require admin role) */}
         <Route
           path="/admin"
           element={

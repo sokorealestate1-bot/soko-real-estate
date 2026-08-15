@@ -20,11 +20,11 @@ const PropertyDetails = () => {
   const fetchProperty = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/properties/${id}`
+        `https://soko-backend-hwvp.onrender.com/api/properties/${id}`
       );
       setProperty(response.data);
       
-      const allRes = await axios.get("http://localhost:5000/api/properties");
+      const allRes = await axios.get("https://soko-backend-hwvp.onrender.com/api/properties");
       const similar = allRes.data
         .filter(p => p._id !== id && p.category === response.data.category && p.status === "Approved")
         .slice(0, 3);

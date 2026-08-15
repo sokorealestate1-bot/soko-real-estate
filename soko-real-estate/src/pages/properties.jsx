@@ -24,7 +24,7 @@ const Properties = () => {
 
   const fetchProperties = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/properties");
+      const res = await axios.get("https://soko-backend-hwvp.onrender.com/api/properties");
       const approved = res.data.filter((p) => p.status === "Approved");
       setAllProperties(approved);
       setFilteredProperties(approved);

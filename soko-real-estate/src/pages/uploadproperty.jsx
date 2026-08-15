@@ -120,7 +120,7 @@ const UploadProperty = () => {
       }
 
       await axios.post(
-        "http://localhost:5000/api/upload",
+        "https://soko-backend-hwvp.onrender.com/api/upload",
         formDataToSend,
         {
           headers: {

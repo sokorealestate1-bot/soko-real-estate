@@ -29,7 +29,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/contact",
+        "https://soko-backend-hwvp.onrender.com/api/contact",
         formData
       );
       setSuccess(response.data.message || "Message sent successfully! We'll get back to you soon.");

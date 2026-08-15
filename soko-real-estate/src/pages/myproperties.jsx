@@ -25,7 +25,7 @@ const MyProperties = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:5000/api/properties/my/properties",
+        "https://soko-backend-hwvp.onrender.com/api/properties/my/properties",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -45,7 +45,7 @@ const MyProperties = () => {
 
     try {
       setDeleting(id);
-      await axios.delete(`http://localhost:5000/api/properties/${id}`, {
+      await axios.delete(`https://soko-backend-hwvp.onrender.com/api/properties/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProperties(properties.filter((p) => p._id !== id));
