@@ -1,16 +1,23 @@
 const nodemailer = require("nodemailer");
 
+// Create transporter with explicit settings
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587, // Use TLS port 587
+  secure: false, // TLS (not SSL)
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: false, // Allow self-signed certs (just in case)
+  },
+  connectionTimeout: 10000, // 10 seconds timeout
 });
 
 // ===== Send Verification Email =====
 const sendVerificationEmail = async (email, name, token) => {
-  const verificationUrl = `http://localhost:5173/verify-email/${token}`;
+  const verificationUrl = `https://soko-real-estate.vercel.app/verify-email/${token}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -39,7 +46,7 @@ const sendVerificationEmail = async (email, name, token) => {
 
 // ===== Send Password Reset Email =====
 const sendPasswordResetEmail = async (email, name, token) => {
-  const resetUrl = `http://localhost:5173/reset-password/${token}`;
+  const resetUrl = `https://soko-real-estate.vercel.app/reset-password/${token}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -67,11 +74,9 @@ const sendPasswordResetEmail = async (email, name, token) => {
   await transporter.sendMail(mailOptions);
 };
 
-// ===== ⬇️ NEW: Property Status Email Notifications =====
-
-// Send Property Approved Email
+// ===== Send Property Approved Email =====
 const sendPropertyApprovedEmail = async (email, name, propertyTitle) => {
-  const propertyUrl = `http://localhost:5173/property/`;
+  const propertyUrl = `https://soko-real-estate.vercel.app/property/`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -98,7 +103,7 @@ const sendPropertyApprovedEmail = async (email, name, propertyTitle) => {
   await transporter.sendMail(mailOptions);
 };
 
-// Send Property Rejected Email
+// ===== Send Property Rejected Email =====
 const sendPropertyRejectedEmail = async (email, name, propertyTitle) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -119,9 +124,9 @@ const sendPropertyRejectedEmail = async (email, name, propertyTitle) => {
   await transporter.sendMail(mailOptions);
 };
 
-// Send Property Featured Email
+// ===== Send Property Featured Email =====
 const sendPropertyFeaturedEmail = async (email, name, propertyTitle) => {
-  const propertyUrl = `http://localhost:5173/property/`;
+  const propertyUrl = `https://soko-real-estate.vercel.app/property/`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -147,9 +152,9 @@ const sendPropertyFeaturedEmail = async (email, name, propertyTitle) => {
   await transporter.sendMail(mailOptions);
 };
 
-// Send Property Verified Email
+// ===== Send Property Verified Email =====
 const sendPropertyVerifiedEmail = async (email, name, propertyTitle) => {
-  const propertyUrl = `http://localhost:5173/property/`;
+  const propertyUrl = `https://soko-real-estate.vercel.app/property/`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
