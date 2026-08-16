@@ -10,9 +10,9 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
   tls: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: false, // Allow self-signed certs (just in case)
   },
-  connectionTimeout: 10000,
+  connectionTimeout: 10000, // 10 seconds timeout
 });
 
 // ===== Send Verification Email =====

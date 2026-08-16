@@ -35,7 +35,6 @@ const ResendVerification = () => {
       background: "#f8fafc",
       fontFamily: "'Segoe UI', Arial, sans-serif"
     }}>
-      {/* ===== MINI NAV ===== */}
       <nav style={{
         background: "#0f172a",
         padding: "0 40px",
@@ -54,7 +53,6 @@ const ResendVerification = () => {
         </div>
       </nav>
 
-      {/* ===== RESEND CARD ===== */}
       <div style={{
         maxWidth: "420px",
         margin: "60px auto",

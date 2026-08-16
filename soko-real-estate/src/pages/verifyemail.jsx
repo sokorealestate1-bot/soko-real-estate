@@ -17,7 +17,6 @@ const VerifyEmail = () => {
           `https://soko-backend-hwvp.onrender.com/api/users/verify-email/${token}`
         );
         setMessage(response.data.message || "Email verified successfully!");
-        // Redirect to login after 3 seconds
         setTimeout(() => {
           navigate("/login");
         }, 3000);
@@ -37,13 +36,37 @@ const VerifyEmail = () => {
     }
   }, [token, navigate]);
 
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#f8fafc"
+      }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{
+            width: "48px",
+            height: "48px",
+            border: "4px solid #e2e8f0",
+            borderTopColor: "#14b8a6",
+            borderRadius: "50%",
+            animation: "spin 0.8s linear infinite",
+            margin: "0 auto"
+          }} />
+          <p style={{ marginTop: "16px", color: "#64748b" }}>Verifying...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{
       minHeight: "100vh",
       background: "#f8fafc",
       fontFamily: "'Segoe UI', Arial, sans-serif"
     }}>
-      {/* ===== MINI NAV ===== */}
       <nav style={{
         background: "#0f172a",
         padding: "0 40px",
@@ -62,7 +85,6 @@ const VerifyEmail = () => {
         </div>
       </nav>
 
-      {/* ===== VERIFICATION CARD ===== */}
       <div style={{
         maxWidth: "480px",
         margin: "80px auto",
@@ -76,39 +98,12 @@ const VerifyEmail = () => {
           border: "1px solid #e2e8f0",
           textAlign: "center"
         }}>
-          {loading ? (
+          {message ? (
             <>
-              <div style={{
-                width: "60px",
-                height: "60px",
-                border: "4px solid #e2e8f0",
-                borderTopColor: "#14b8a6",
-                borderRadius: "50%",
-                animation: "spin 0.8s linear infinite",
-                margin: "0 auto 20px"
-              }} />
-              <h2 style={{ fontSize: "22px", fontWeight: "700", color: "#0f172a" }}>
-                Verifying your email...
-              </h2>
-              <p style={{ color: "#64748b", marginTop: "8px" }}>
-                Please wait while we confirm your account.
-              </p>
-            </>
-          ) : message ? (
-            <>
-              <div style={{
-                fontSize: "56px",
-                marginBottom: "16px"
-              }}>✅</div>
-              <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#0f172a" }}>
-                Email Verified!
-              </h2>
-              <p style={{ color: "#475569", marginTop: "8px", fontSize: "16px" }}>
-                {message}
-              </p>
-              <p style={{ color: "#94a3b8", marginTop: "12px", fontSize: "14px" }}>
-                Redirecting to login...
-              </p>
+              <div style={{ fontSize: "56px", marginBottom: "16px" }}>✅</div>
+              <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#0f172a" }}>Email Verified!</h2>
+              <p style={{ color: "#475569", marginTop: "8px", fontSize: "16px" }}>{message}</p>
+              <p style={{ color: "#94a3b8", marginTop: "12px", fontSize: "14px" }}>Redirecting to login...</p>
               <Link to="/login" style={{
                 display: "inline-block",
                 marginTop: "20px",
@@ -128,16 +123,9 @@ const VerifyEmail = () => {
             </>
           ) : error ? (
             <>
-              <div style={{
-                fontSize: "56px",
-                marginBottom: "16px"
-              }}>❌</div>
-              <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#dc2626" }}>
-                Verification Failed
-              </h2>
-              <p style={{ color: "#475569", marginTop: "8px", fontSize: "16px" }}>
-                {error}
-              </p>
+              <div style={{ fontSize: "56px", marginBottom: "16px" }}>❌</div>
+              <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#dc2626" }}>Verification Failed</h2>
+              <p style={{ color: "#475569", marginTop: "8px", fontSize: "16px" }}>{error}</p>
               <Link to="/resend-verification" style={{
                 display: "inline-block",
                 marginTop: "20px",

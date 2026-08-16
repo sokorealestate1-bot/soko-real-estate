@@ -444,7 +444,7 @@ const Home = () => {
           </div>
           <div>
             <h4>Contact</h4>
-            <p>📞 +265 885 767 077</p>
+            <p>📞 +265 999 123 456</p>
             <p>✉️ sokorealestate1@gmail.com</p>
             <p>📍 Lilongwe, Malawi</p>
           </div>

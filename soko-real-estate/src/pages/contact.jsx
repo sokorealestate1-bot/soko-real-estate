@@ -124,7 +124,7 @@ const Contact = () => {
                 }}>📞</div>
                 <div>
                   <p style={{ fontWeight: "600", color: "#0f172a", margin: 0 }}>Phone</p>
-                  <p style={{ color: "#64748b", margin: 0, fontSize: "14px" }}>+265 885 767 077</p>
+                  <p style={{ color: "#64748b", margin: 0, fontSize: "14px" }}>+265 999 123 456</p>
                 </div>
               </div>
 
