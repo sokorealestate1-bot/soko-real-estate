@@ -11,8 +11,20 @@ console.log("📌 MONGO_URI:", process.env.MONGO_URI);
 
 const app = express();
 
+// ===== CORS CONFIGURATION (Fixes "Forbidden" Error) =====
+const corsOptions = {
+  origin: [
+    'https://soko-real-estate.vercel.app',   // Your live frontend
+    'http://localhost:5173',                 // Your local development
+    'http://localhost:3000'                  // Alternative local port
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
