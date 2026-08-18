@@ -1,27 +1,15 @@
-const nodemailer = require("nodemailer");
+const sgMail = require('@sendgrid/mail');
 
-// Create transporter with explicit settings
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587, // Use TLS port 587
-  secure: false, // TLS (not SSL)
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false, // Allow self-signed certs (just in case)
-  },
-  connectionTimeout: 10000, // 10 seconds timeout
-});
+// Set SendGrid API key from environment variables
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // ===== Send Verification Email =====
 const sendVerificationEmail = async (email, name, token) => {
   const verificationUrl = `https://soko-real-estate.vercel.app/verify-email/${token}`;
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: "Verify Your Email - SOKO Real Estate",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -41,16 +29,16 @@ const sendVerificationEmail = async (email, name, token) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await sgMail.send(msg);
 };
 
 // ===== Send Password Reset Email =====
 const sendPasswordResetEmail = async (email, name, token) => {
   const resetUrl = `https://soko-real-estate.vercel.app/reset-password/${token}`;
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: "Reset Your Password - SOKO Real Estate",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -71,16 +59,16 @@ const sendPasswordResetEmail = async (email, name, token) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await sgMail.send(msg);
 };
 
 // ===== Send Property Approved Email =====
 const sendPropertyApprovedEmail = async (email, name, propertyTitle) => {
   const propertyUrl = `https://soko-real-estate.vercel.app/property/`;
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: "✅ Your Property Has Been Approved - SOKO Real Estate",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -100,37 +88,37 @@ const sendPropertyApprovedEmail = async (email, name, propertyTitle) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await sgMail.send(msg);
 };
 
 // ===== Send Property Rejected Email =====
 const sendPropertyRejectedEmail = async (email, name, propertyTitle) => {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: "❌ Property Update - SOKO Real Estate",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
         <h1 style="color: #2563eb; text-align: center;">SOKO Real Estate</h1>
         <h2 style="text-align: center;">Hi ${name},</h2>
         <p style="font-size: 16px; line-height: 1.6;">We wanted to let you know that your property <strong>"${propertyTitle}"</strong> has been reviewed and is currently not approved for listing.</p>
-        <p style="font-size: 16px; line-height: 1.6;">If you have any questions, please contact us at <a href="mailto:${process.env.EMAIL_USER}">${process.env.EMAIL_USER}</a>.</p>
+        <p style="font-size: 16px; line-height: 1.6;">If you have any questions, please contact us at <a href="mailto:${process.env.EMAIL_FROM}">${process.env.EMAIL_FROM}</a>.</p>
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
         <p style="font-size: 12px; color: #999; text-align: center;">© 2025 SOKO Real Estate. All rights reserved.</p>
       </div>
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await sgMail.send(msg);
 };
 
 // ===== Send Property Featured Email =====
 const sendPropertyFeaturedEmail = async (email, name, propertyTitle) => {
   const propertyUrl = `https://soko-real-estate.vercel.app/property/`;
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: "⭐ Your Property is Now Featured - SOKO Real Estate",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -149,16 +137,16 @@ const sendPropertyFeaturedEmail = async (email, name, propertyTitle) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await sgMail.send(msg);
 };
 
 // ===== Send Property Verified Email =====
 const sendPropertyVerifiedEmail = async (email, name, propertyTitle) => {
   const propertyUrl = `https://soko-real-estate.vercel.app/property/`;
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to: email,
+    from: process.env.EMAIL_FROM,
     subject: "✅ Your Property Has Been Verified - SOKO Real Estate",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -177,7 +165,7 @@ const sendPropertyVerifiedEmail = async (email, name, propertyTitle) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await sgMail.send(msg);
 };
 
 module.exports = {
