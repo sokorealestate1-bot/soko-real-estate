@@ -216,11 +216,11 @@ const Home = () => {
               >
                 <option value="">Min Price</option>
                 <option value="0">MK 0</option>
-                <option value="1000000">MK 200,000</option>
-                <option value="5000000">MK 500,000</option>
-                <option value="10000000">MK 750,000</option>
-                <option value="20000000">MK 1,000,000</option>
-                <option value="50000000">MK 1,200,000</option>
+                <option value="200000">MK 200,000</option>
+                <option value="500000">MK 500,000</option>
+                <option value="750000">MK 750,000</option>
+                <option value="1000000">MK 1,000,000</option>
+                <option value="1200000">MK 1,200,000</option>
               </select>
               <select
                 value={priceMax}
