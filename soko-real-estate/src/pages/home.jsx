@@ -42,19 +42,21 @@ const Home = () => {
     }
   };
 
-  // ===== FILTER LOGIC =====
+  // ===== FILTER LOGIC (FIXED) =====
   const applyFilters = () => {
     let results = allProperties;
 
-    // 1. Sale / Rent toggle
-    if (saleRent === "sale") {
-      results = results.filter((p) => p.category.includes("Sale"));
-    } else if (saleRent === "rent") {
-      results = results.filter((p) => p.category.includes("Rent"));
+    // 1. Sale / Rent toggle – ONLY APPLY IF propertyType is NOT "all"
+    if (propertyType !== "all") {
+      if (saleRent === "sale") {
+        results = results.filter((p) => p.category.includes("Sale"));
+      } else if (saleRent === "rent") {
+        results = results.filter((p) => p.category.includes("Rent"));
+      }
     }
-    // If "sale" or "rent" not selected, show ALL (but we always have one selected)
+    // If propertyType is "all", skip Sale/Rent filter (show everything)
 
-    // 2. Property type
+    // 2. Property type (if not "all")
     if (propertyType !== "all") {
       results = results.filter((p) => p.category === propertyType);
     }
@@ -67,7 +69,7 @@ const Home = () => {
       );
     }
 
-    // 4. Price range (now with number inputs)
+    // 4. Price range (number inputs)
     if (priceMin) {
       results = results.filter((p) => p.price >= parseInt(priceMin));
     }
