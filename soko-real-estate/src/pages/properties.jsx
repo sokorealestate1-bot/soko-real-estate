@@ -142,10 +142,10 @@ const Properties = () => {
         margin: "0 auto",
         padding: "24px 16px 16px"
       }}>
-        <h1 style={{ fontSize: "24px", fontWeight: "700", color: "#0f172a", marginBottom: "4px" }}>
+        <h1 style={{ fontSize: "28px", fontWeight: "700", color: "#0f172a", marginBottom: "4px" }}>
           Browse All Properties
         </h1>
-        <p style={{ color: "#64748b", fontSize: "14px" }}>
+        <p style={{ color: "#64748b", fontSize: "15px" }}>
           Find your dream property in Malawi
         </p>
       </div>
@@ -169,7 +169,7 @@ const Properties = () => {
               setPropertyType("all");
             }}
             style={{
-              padding: "8px 24px",
+              padding: "8px 28px",
               border: saleRent === "sale" ? "2px solid #14b8a6" : "2px solid #e2e8f0",
               borderRadius: "8px",
               background: saleRent === "sale" ? "#14b8a6" : "transparent",
@@ -188,7 +188,7 @@ const Properties = () => {
               setPropertyType("all");
             }}
             style={{
-              padding: "8px 24px",
+              padding: "8px 28px",
               border: saleRent === "rent" ? "2px solid #14b8a6" : "2px solid #e2e8f0",
               borderRadius: "8px",
               background: saleRent === "rent" ? "#14b8a6" : "transparent",
@@ -233,7 +233,7 @@ const Properties = () => {
                   borderRadius: "50px",
                   background: propertyType === type.key ? "#14b8a6" : "rgba(0,0,0,0.05)",
                   color: propertyType === type.key ? "#fff" : "#475569",
-                  fontSize: "12px",
+                  fontSize: "13px",
                   fontWeight: "500",
                   cursor: "pointer",
                   transition: "all 0.2s ease"
@@ -245,7 +245,7 @@ const Properties = () => {
           })}
         </div>
 
-        {/* Search Box - Responsive Grid */}
+        {/* Search Box */}
         <div style={{
           background: "#ffffff",
           borderRadius: "12px",
@@ -253,13 +253,13 @@ const Properties = () => {
           boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
           border: "1px solid #e2e8f0",
           display: "grid",
-          gridTemplateColumns: "1fr",
+          gridTemplateColumns: "repeat(5, 1fr)",
           gap: "10px",
           alignItems: "center"
         }}>
           <input
             type="text"
-            placeholder="Location (e.g. Lilongwe)"
+            placeholder="Location..."
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             style={{
@@ -277,7 +277,7 @@ const Properties = () => {
           />
           <input
             type="number"
-            placeholder="Min Price (MK)"
+            placeholder="Min Price"
             value={priceMin}
             onChange={(e) => setPriceMin(e.target.value)}
             style={{
@@ -297,7 +297,7 @@ const Properties = () => {
           />
           <input
             type="number"
-            placeholder="Max Price (MK)"
+            placeholder="Max Price"
             value={priceMax}
             onChange={(e) => setPriceMax(e.target.value)}
             style={{
@@ -376,7 +376,7 @@ const Properties = () => {
           marginBottom: "16px",
           flexWrap: "wrap"
         }}>
-          <h2 style={{ fontSize: "18px", fontWeight: "700", color: "#0f172a" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: "700", color: "#0f172a" }}>
             {filteredProperties.length} Properties Found
           </h2>
           <span style={{ color: "#64748b", fontSize: "13px" }}>
@@ -398,7 +398,7 @@ const Properties = () => {
         ) : (
           <div style={{
             display: "grid",
-            gridTemplateColumns: "1fr",
+            gridTemplateColumns: "repeat(3, 1fr)",
             gap: "16px"
           }}>
             {filteredProperties.map((p) => (
@@ -421,83 +421,81 @@ const Properties = () => {
                 e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.04)";
               }}
               >
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "16px" }}>
-                  <div style={{ position: "relative", width: "120px", height: "120px", flexShrink: 0, background: "#e2e8f0", overflow: "hidden" }}>
-                    {p.images?.[0] ? (
-                      <img src={p.images[0]} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#94a3b8", fontSize: "11px" }}>No Image</div>
-                    )}
-                    {p.isFeatured && (
-                      <span style={{
-                        position: "absolute",
-                        top: "6px",
-                        left: "6px",
-                        background: "#f59e0b",
-                        color: "#0f172a",
-                        padding: "2px 8px",
-                        borderRadius: "50px",
-                        fontSize: "8px",
-                        fontWeight: "700",
-                        textTransform: "uppercase"
-                      }}>Featured</span>
-                    )}
-                    {p.isVerified && (
-                      <span style={{
-                        position: "absolute",
-                        top: "28px",
-                        left: "6px",
-                        background: "#8b5cf6",
-                        color: "#fff",
-                        padding: "2px 8px",
-                        borderRadius: "50px",
-                        fontSize: "7px",
-                        fontWeight: "600",
-                        textTransform: "uppercase"
-                      }}>Verified</span>
-                    )}
+                <div style={{ position: "relative", height: "180px", background: "#e2e8f0", overflow: "hidden" }}>
+                  {p.images?.[0] ? (
+                    <img src={p.images[0]} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ) : (
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#94a3b8" }}>No Image</div>
+                  )}
+                  {p.isFeatured && (
                     <span style={{
                       position: "absolute",
-                      bottom: "4px",
-                      right: "4px",
-                      background: "rgba(15,23,42,0.85)",
-                      color: "#fff",
-                      padding: "3px 8px",
-                      borderRadius: "6px",
+                      top: "8px",
+                      left: "8px",
+                      background: "#f59e0b",
+                      color: "#0f172a",
+                      padding: "2px 10px",
+                      borderRadius: "50px",
+                      fontSize: "9px",
                       fontWeight: "700",
-                      fontSize: "11px"
-                    }}>MK {p.price.toLocaleString()}</span>
+                      textTransform: "uppercase"
+                    }}>Featured</span>
+                  )}
+                  {p.isVerified && (
+                    <span style={{
+                      position: "absolute",
+                      top: "30px",
+                      left: "8px",
+                      background: "#8b5cf6",
+                      color: "#fff",
+                      padding: "2px 10px",
+                      borderRadius: "50px",
+                      fontSize: "8px",
+                      fontWeight: "600",
+                      textTransform: "uppercase"
+                    }}>Verified</span>
+                  )}
+                  <span style={{
+                    position: "absolute",
+                    bottom: "8px",
+                    right: "8px",
+                    background: "rgba(15,23,42,0.85)",
+                    color: "#fff",
+                    padding: "4px 12px",
+                    borderRadius: "6px",
+                    fontWeight: "700",
+                    fontSize: "13px"
+                  }}>MK {p.price.toLocaleString()}</span>
+                </div>
+                <div style={{ padding: "12px 16px" }}>
+                  <span style={{
+                    display: "inline-block",
+                    background: "#2563eb",
+                    color: "#fff",
+                    padding: "2px 10px",
+                    borderRadius: "50px",
+                    fontSize: "8px",
+                    fontWeight: "600",
+                    textTransform: "uppercase",
+                    marginBottom: "4px"
+                  }}>{getSaleRentLabel(p.category)}</span>
+                  <h3 style={{ fontSize: "16px", fontWeight: "600", color: "#0f172a", margin: "4px 0" }}>{p.title}</h3>
+                  <p style={{ color: "#64748b", fontSize: "13px", margin: "2px 0 0" }}>{p.location}</p>
+                  <div style={{ display: "flex", gap: "16px", marginTop: "8px", fontSize: "13px", color: "#475569" }}>
+                    <span>🛏️ {p.bedrooms}</span>
+                    <span>🚿 {p.bathrooms}</span>
                   </div>
-                  <div style={{ flex: 1, padding: "12px 16px 12px 0" }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginBottom: "4px" }}>
-                      <span style={{
-                        background: "#2563eb",
-                        color: "#fff",
-                        padding: "2px 8px",
-                        borderRadius: "50px",
-                        fontSize: "8px",
-                        fontWeight: "600",
-                        textTransform: "uppercase"
-                      }}>{getSaleRentLabel(p.category)}</span>
-                    </div>
-                    <h3 style={{ fontSize: "15px", fontWeight: "600", color: "#0f172a", margin: 0 }}>{p.title}</h3>
-                    <p style={{ color: "#64748b", fontSize: "12px", margin: "2px 0 0" }}>{p.location}</p>
-                    <div style={{ display: "flex", gap: "12px", marginTop: "6px", fontSize: "12px", color: "#475569" }}>
-                      <span>🛏️ {p.bedrooms}</span>
-                      <span>🚿 {p.bathrooms}</span>
-                    </div>
-                    <div style={{
-                      marginTop: "8px",
-                      paddingTop: "6px",
-                      borderTop: "1px solid #e2e8f0",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "11px",
-                      color: "#94a3b8"
-                    }}>
-                      <span>By {p.ownerName}</span>
-                      <span style={{ color: "#0f172a", fontWeight: "600" }}>View →</span>
-                    </div>
+                  <div style={{
+                    marginTop: "10px",
+                    paddingTop: "8px",
+                    borderTop: "1px solid #e2e8f0",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "12px",
+                    color: "#94a3b8"
+                  }}>
+                    <span>By {p.ownerName}</span>
+                    <span style={{ color: "#0f172a", fontWeight: "600" }}>View →</span>
                   </div>
                 </div>
               </Link>
@@ -508,22 +506,28 @@ const Properties = () => {
 
       {/* ===== RESPONSIVE MEDIA QUERIES ===== */}
       <style>{`
-        @media (min-width: 640px) {
+        @media (max-width: 768px) {
           .search-box-grid {
-            grid-template-columns: 1fr 1fr !important;
+            grid-template-columns: 1fr !important;
+          }
+          .properties-grid {
+            grid-template-columns: 1fr !important;
           }
         }
-        @media (min-width: 768px) {
+        @media (min-width: 769px) and (max-width: 1024px) {
           .properties-grid {
             grid-template-columns: repeat(2, 1fr) !important;
           }
+          .search-box-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
         }
-        @media (min-width: 1024px) {
+        @media (min-width: 1025px) {
           .properties-grid {
             grid-template-columns: repeat(3, 1fr) !important;
           }
           .search-box-grid {
-            grid-template-columns: 1.2fr 1fr 1fr 0.8fr 0.6fr !important;
+            grid-template-columns: repeat(5, 1fr) !important;
           }
         }
       `}</style>
