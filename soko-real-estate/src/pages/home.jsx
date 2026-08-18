@@ -23,6 +23,7 @@ const Home = () => {
 
   const showBedrooms = propertyType !== "Land";
 
+  // ===== FETCH PROPERTIES =====
   useEffect(() => {
     fetchProperties();
   }, []);
@@ -41,21 +42,24 @@ const Home = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-
+  // ===== FILTER LOGIC =====
+  const applyFilters = () => {
     let results = allProperties;
 
+    // 1. Sale / Rent toggle
     if (saleRent === "sale") {
       results = results.filter((p) => p.category.includes("Sale"));
     } else if (saleRent === "rent") {
       results = results.filter((p) => p.category.includes("Rent"));
     }
+    // If "sale" or "rent" not selected, show ALL (but we always have one selected)
 
+    // 2. Property type
     if (propertyType !== "all") {
       results = results.filter((p) => p.category === propertyType);
     }
 
+    // 3. Location
     if (location.trim()) {
       const loc = location.toLowerCase();
       results = results.filter((p) =>
@@ -63,6 +67,7 @@ const Home = () => {
       );
     }
 
+    // 4. Price range (now with number inputs)
     if (priceMin) {
       results = results.filter((p) => p.price >= parseInt(priceMin));
     }
@@ -70,6 +75,7 @@ const Home = () => {
       results = results.filter((p) => p.price <= parseInt(priceMax));
     }
 
+    // 5. Bedrooms
     if (showBedrooms && bedrooms) {
       results = results.filter((p) => p.bedrooms === parseInt(bedrooms));
     }
@@ -77,17 +83,39 @@ const Home = () => {
     setFilteredResults(results.slice(0, 6));
   };
 
-  const getSaleRentLabel = (category) => {
-    if (category.toLowerCase().includes("rent")) return "For Rent";
-    if (category.toLowerCase().includes("sale")) return "For Sale";
-    return category;
-  };
+  // ===== AUTO-FILTER ON STATE CHANGE =====
+  useEffect(() => {
+    if (allProperties.length > 0) {
+      applyFilters();
+    }
+  }, [
+    saleRent,
+    propertyType,
+    location,
+    priceMin,
+    priceMax,
+    bedrooms,
+    allProperties,
+  ]);
 
+  // ===== RESET BEDROOMS WHEN LAND IS SELECTED =====
   useEffect(() => {
     if (propertyType === "Land") {
       setBedrooms("");
     }
   }, [propertyType]);
+
+  // ===== HANDLE SEARCH (manual override) =====
+  const handleSearch = (e) => {
+    e.preventDefault();
+    applyFilters();
+  };
+
+  const getSaleRentLabel = (category) => {
+    if (category.toLowerCase().includes("rent")) return "For Rent";
+    if (category.toLowerCase().includes("sale")) return "For Sale";
+    return category;
+  };
 
   if (loading) {
     return (
@@ -109,7 +137,7 @@ const Home = () => {
           <div className="nav-links">
             <Link to="/properties">Browse</Link>
             <Link to="/upload">Sell</Link>
-            <Link to="/map">Map View</Link> {/* ⬅️ ADDED */}
+            <Link to="/map">Map View</Link>
             <Link to="/contact">Contact</Link>
             {user?.role === "admin" && (
               <Link to="/admin" className="active">
@@ -209,33 +237,24 @@ const Home = () => {
                 onChange={(e) => setLocation(e.target.value)}
                 className="search-input"
               />
-              <select
+              <input
+                type="number"
+                placeholder="Min Price (MK)"
                 value={priceMin}
                 onChange={(e) => setPriceMin(e.target.value)}
-                className="search-select"
-              >
-                <option value="">Min Price</option>
-                <option value="0">MK 0</option>
-                <option value="200000">MK 200,000</option>
-                <option value="500000">MK 500,000</option>
-                <option value="750000">MK 750,000</option>
-                <option value="1000000">MK 1,000,000</option>
-                <option value="1200000">MK 1,200,000</option>
-              </select>
-              <select
+                className="search-input"
+                min="0"
+                step="100000"
+              />
+              <input
+                type="number"
+                placeholder="Max Price (MK)"
                 value={priceMax}
                 onChange={(e) => setPriceMax(e.target.value)}
-                className="search-select"
-              >
-                <option value="">Max Price</option>
-                <option value="1000000">MK 1M</option>
-                <option value="5000000">MK 5M</option>
-                <option value="10000000">MK 10M</option>
-                <option value="20000000">MK 20M</option>
-                <option value="50000000">MK 50M</option>
-                <option value="100000000">MK 100M</option>
-                <option value="9999999999">MK 100M+</option>
-              </select>
+                className="search-input"
+                min="0"
+                step="100000"
+              />
               {showBedrooms && (
                 <select
                   value={bedrooms}
