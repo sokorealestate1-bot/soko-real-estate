@@ -18,6 +18,7 @@ const Properties = () => {
 
   const showBedrooms = propertyType !== "Land";
 
+  // ===== FETCH PROPERTIES =====
   useEffect(() => {
     fetchProperties();
   }, []);
@@ -35,17 +36,21 @@ const Properties = () => {
     }
   };
 
+  // ===== FILTER LOGIC (FIXED) =====
   const applyFilters = () => {
     let results = allProperties;
 
-    // 1. Sale / Rent toggle
-    if (saleRent === "sale") {
-      results = results.filter((p) => p.category.includes("Sale"));
-    } else if (saleRent === "rent") {
-      results = results.filter((p) => p.category.includes("Rent"));
+    // 1. Sale / Rent toggle – ONLY APPLY IF propertyType is NOT "all"
+    if (propertyType !== "all") {
+      if (saleRent === "sale") {
+        results = results.filter((p) => p.category.includes("Sale"));
+      } else if (saleRent === "rent") {
+        results = results.filter((p) => p.category.includes("Rent"));
+      }
     }
+    // If propertyType is "all", skip Sale/Rent filter (show everything)
 
-    // 2. Property type
+    // 2. Property type (if not "all")
     if (propertyType !== "all") {
       results = results.filter((p) => p.category === propertyType);
     }
@@ -74,9 +79,20 @@ const Properties = () => {
     setFilteredProperties(results);
   };
 
+  // ===== AUTO-FILTER ON STATE CHANGE =====
   useEffect(() => {
-    if (allProperties.length > 0) applyFilters();
-  }, [saleRent, propertyType, location, priceMin, priceMax, bedrooms, allProperties]);
+    if (allProperties.length > 0) {
+      applyFilters();
+    }
+  }, [
+    saleRent,
+    propertyType,
+    location,
+    priceMin,
+    priceMax,
+    bedrooms,
+    allProperties,
+  ]);
 
   const getSaleRentLabel = (category) => {
     if (category.toLowerCase().includes("rent")) return "For Rent";
@@ -154,7 +170,10 @@ const Properties = () => {
           marginBottom: "16px"
         }}>
           <button
-            onClick={() => setSaleRent("sale")}
+            onClick={() => {
+              setSaleRent("sale");
+              setPropertyType("all");
+            }}
             style={{
               padding: "10px 32px",
               border: saleRent === "sale" ? "2px solid #14b8a6" : "2px solid #e2e8f0",
@@ -170,7 +189,10 @@ const Properties = () => {
             For Sale
           </button>
           <button
-            onClick={() => setSaleRent("rent")}
+            onClick={() => {
+              setSaleRent("rent");
+              setPropertyType("all");
+            }}
             style={{
               padding: "10px 32px",
               border: saleRent === "rent" ? "2px solid #14b8a6" : "2px solid #e2e8f0",
@@ -187,7 +209,7 @@ const Properties = () => {
           </button>
         </div>
 
-        {/* Property Type Nav (with "Others") */}
+        {/* Property Type Nav */}
         <div style={{
           display: "flex",
           flexWrap: "wrap",
@@ -203,7 +225,7 @@ const Properties = () => {
             { key: "Offices", label: "Offices", showFor: "both" },
             { key: "Land", label: "Land", showFor: "both" },
             { key: "Airbnb", label: "Airbnb", showFor: "both" },
-            { key: "Others", label: "Others", showFor: "both" }, // ⬅️ ADDED
+            { key: "Others", label: "Others", showFor: "both" },
           ].map((type) => {
             if (type.showFor === "sale" && saleRent !== "sale") return null;
             if (type.showFor === "rent" && saleRent !== "rent") return null;
@@ -258,7 +280,9 @@ const Properties = () => {
             onFocus={(e) => e.target.style.borderColor = "#14b8a6"}
             onBlur={(e) => e.target.style.borderColor = "#e2e8f0"}
           />
-          <select
+          <input
+            type="number"
+            placeholder="Min Price (MK)"
             value={priceMin}
             onChange={(e) => setPriceMin(e.target.value)}
             style={{
@@ -266,23 +290,18 @@ const Properties = () => {
               border: "1px solid #e2e8f0",
               borderRadius: "8px",
               fontSize: "14px",
-              background: "#fff",
               color: "#0f172a",
               outline: "none",
               transition: "border-color 0.2s ease"
             }}
             onFocus={(e) => e.target.style.borderColor = "#14b8a6"}
             onBlur={(e) => e.target.style.borderColor = "#e2e8f0"}
-          >
-            <option value="">Min Price</option>
-            <option value="0">MK 0</option>
-            <option value="200000">MK 200,000</option>
-            <option value="500000">MK 500,000</option>
-            <option value="750000">MK 750,000</option>
-            <option value="1000000">MK 1,000,000</option>
-            <option value="1200000">MK 1,200,000</option>
-          </select>
-          <select
+            min="0"
+            step="100000"
+          />
+          <input
+            type="number"
+            placeholder="Max Price (MK)"
             value={priceMax}
             onChange={(e) => setPriceMax(e.target.value)}
             style={{
@@ -290,23 +309,15 @@ const Properties = () => {
               border: "1px solid #e2e8f0",
               borderRadius: "8px",
               fontSize: "14px",
-              background: "#fff",
               color: "#0f172a",
               outline: "none",
               transition: "border-color 0.2s ease"
             }}
             onFocus={(e) => e.target.style.borderColor = "#14b8a6"}
             onBlur={(e) => e.target.style.borderColor = "#e2e8f0"}
-          >
-            <option value="">Max Price</option>
-            <option value="1000000">MK 1M</option>
-            <option value="5000000">MK 5M</option>
-            <option value="10000000">MK 10M</option>
-            <option value="20000000">MK 20M</option>
-            <option value="50000000">MK 50M</option>
-            <option value="100000000">MK 100M</option>
-            <option value="9999999999">MK 100M+</option>
-          </select>
+            min="0"
+            step="100000"
+          />
           {showBedrooms && (
             <select
               value={bedrooms}
