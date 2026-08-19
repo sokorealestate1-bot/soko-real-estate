@@ -1,3 +1,4 @@
+import { getImageUrl } from "../utils/imageUtils";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +24,6 @@ const Home = () => {
 
   const showBedrooms = propertyType !== "Land";
 
-  // ===== FETCH PROPERTIES =====
   useEffect(() => {
     fetchProperties();
   }, []);
@@ -42,26 +42,21 @@ const Home = () => {
     }
   };
 
-  // ===== FILTER LOGIC (FIXED) =====
-  const applyFilters = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+
     let results = allProperties;
 
-    // 1. Sale / Rent toggle – ONLY APPLY IF propertyType is NOT "all"
-    if (propertyType !== "all") {
-      if (saleRent === "sale") {
-        results = results.filter((p) => p.category.includes("Sale"));
-      } else if (saleRent === "rent") {
-        results = results.filter((p) => p.category.includes("Rent"));
-      }
+    if (saleRent === "sale") {
+      results = results.filter((p) => p.category.includes("Sale"));
+    } else if (saleRent === "rent") {
+      results = results.filter((p) => p.category.includes("Rent"));
     }
-    // If propertyType is "all", skip Sale/Rent filter (show everything)
 
-    // 2. Property type (if not "all")
     if (propertyType !== "all") {
       results = results.filter((p) => p.category === propertyType);
     }
 
-    // 3. Location
     if (location.trim()) {
       const loc = location.toLowerCase();
       results = results.filter((p) =>
@@ -69,7 +64,6 @@ const Home = () => {
       );
     }
 
-    // 4. Price range (number inputs)
     if (priceMin) {
       results = results.filter((p) => p.price >= parseInt(priceMin));
     }
@@ -77,7 +71,6 @@ const Home = () => {
       results = results.filter((p) => p.price <= parseInt(priceMax));
     }
 
-    // 5. Bedrooms
     if (showBedrooms && bedrooms) {
       results = results.filter((p) => p.bedrooms === parseInt(bedrooms));
     }
@@ -85,39 +78,17 @@ const Home = () => {
     setFilteredResults(results.slice(0, 6));
   };
 
-  // ===== AUTO-FILTER ON STATE CHANGE =====
-  useEffect(() => {
-    if (allProperties.length > 0) {
-      applyFilters();
-    }
-  }, [
-    saleRent,
-    propertyType,
-    location,
-    priceMin,
-    priceMax,
-    bedrooms,
-    allProperties,
-  ]);
-
-  // ===== RESET BEDROOMS WHEN LAND IS SELECTED =====
-  useEffect(() => {
-    if (propertyType === "Land") {
-      setBedrooms("");
-    }
-  }, [propertyType]);
-
-  // ===== HANDLE SEARCH (manual override) =====
-  const handleSearch = (e) => {
-    e.preventDefault();
-    applyFilters();
-  };
-
   const getSaleRentLabel = (category) => {
     if (category.toLowerCase().includes("rent")) return "For Rent";
     if (category.toLowerCase().includes("sale")) return "For Sale";
     return category;
   };
+
+  useEffect(() => {
+    if (propertyType === "Land") {
+      setBedrooms("");
+    }
+  }, [propertyType]);
 
   if (loading) {
     return (
@@ -139,7 +110,7 @@ const Home = () => {
           <div className="nav-links">
             <Link to="/properties">Browse</Link>
             <Link to="/upload">Sell</Link>
-            <Link to="/map">Map View</Link>
+            <Link to="/map">Map View</Link> {/* ⬅️ ADDED */}
             <Link to="/contact">Contact</Link>
             {user?.role === "admin" && (
               <Link to="/admin" className="active">
@@ -239,24 +210,33 @@ const Home = () => {
                 onChange={(e) => setLocation(e.target.value)}
                 className="search-input"
               />
-              <input
-                type="number"
-                placeholder="Min Price (MK)"
+              <select
                 value={priceMin}
                 onChange={(e) => setPriceMin(e.target.value)}
-                className="search-input"
-                min="0"
-                step="100000"
-              />
-              <input
-                type="number"
-                placeholder="Max Price (MK)"
+                className="search-select"
+              >
+                <option value="">Min Price</option>
+                <option value="0">MK 0</option>
+                <option value="1000000">MK 1M</option>
+                <option value="5000000">MK 5M</option>
+                <option value="10000000">MK 10M</option>
+                <option value="20000000">MK 20M</option>
+                <option value="50000000">MK 50M</option>
+              </select>
+              <select
                 value={priceMax}
                 onChange={(e) => setPriceMax(e.target.value)}
-                className="search-input"
-                min="0"
-                step="100000"
-              />
+                className="search-select"
+              >
+                <option value="">Max Price</option>
+                <option value="1000000">MK 1M</option>
+                <option value="5000000">MK 5M</option>
+                <option value="10000000">MK 10M</option>
+                <option value="20000000">MK 20M</option>
+                <option value="50000000">MK 50M</option>
+                <option value="100000000">MK 100M</option>
+                <option value="9999999999">MK 100M+</option>
+              </select>
               {showBedrooms && (
                 <select
                   value={bedrooms}
@@ -465,7 +445,7 @@ const Home = () => {
           </div>
           <div>
             <h4>Contact</h4>
-            <p>📞 +265 885 767 077</p>
+            <p>📞 +265 999 123 456</p>
             <p>✉️ sokorealestate1@gmail.com</p>
             <p>📍 Lilongwe, Malawi</p>
           </div>
