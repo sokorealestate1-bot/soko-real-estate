@@ -513,7 +513,7 @@ const UploadProperty = () => {
               </div>
             </div>
 
-            {/* ===== IMAGES ===== */}
+            {/* ===== IMAGES (Mobile-Friendly) ===== */}
             <div style={{ marginBottom: "24px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Images
@@ -534,7 +534,7 @@ const UploadProperty = () => {
                 }}
               />
               <p style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>
-                You can select multiple images (max 10)
+                You can select multiple images from your device (max 10)
               </p>
             </div>
 
