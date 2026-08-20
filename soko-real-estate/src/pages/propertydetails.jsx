@@ -1,9 +1,9 @@
-import { getImageUrl } from "../utils/imageUtils";
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
 import PropertyMap from "../components/PropertyMap";
+import { getImageUrl } from "../utils/imageUtils";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -201,10 +201,11 @@ const PropertyDetails = () => {
                 {property.images && property.images.length > 0 ? (
                   <>
                     <img
-                      src={property.images[currentImage]}
+                      src={getImageUrl(property.images[currentImage])}
                       alt={property.title}
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
+                    {/* Badges on image */}
                     <div style={{
                       position: "absolute",
                       top: "16px",
@@ -574,38 +575,6 @@ const PropertyDetails = () => {
               </button>
 
               <button
-                onClick={() => {
-                  const subject = encodeURIComponent(`Inquiry about ${property.title}`);
-                  const body = encodeURIComponent(`Hello ${property.ownerName},\n\nI'm interested in your property: ${property.title}\nPrice: MK ${property.price.toLocaleString()}\nLocation: ${property.location}\n\nPlease contact me with more details.`);
-                  window.location.href = `mailto:${property.ownerEmail || 'sokorealestate1@gmail.com'}?subject=${subject}&body=${body}`;
-                }}
-                style={{
-                  width: "100%",
-                  padding: "14px",
-                  marginTop: "10px",
-                  background: "#ffffff",
-                  color: "#0f172a",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: "8px",
-                  fontWeight: "600",
-                  fontSize: "15px",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease"
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = "#f8fafc";
-                  e.target.style.borderColor = "#cbd5e1";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = "#ffffff";
-                  e.target.style.borderColor = "#e2e8f0";
-                }}
-              >
-                ✉️ Send Email
-              </button>
-
-              {/* ===== SHARE BUTTON ===== */}
-              <button
                 onClick={handleShare}
                 style={{
                   width: "100%",
@@ -696,7 +665,7 @@ const PropertyDetails = () => {
                         flexShrink: 0
                       }}>
                         {p.images?.[0] ? (
-                          <img src={p.images[0]} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          <img src={getImageUrl(p.images[0])} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                         ) : (
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#94a3b8", fontSize: "10px" }}>
                             No img
