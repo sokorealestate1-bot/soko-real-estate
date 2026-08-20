@@ -1,8 +1,8 @@
-import { getImageUrl } from "../utils/imageUtils";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
+import { getImageUrl } from "../utils/imageUtils";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ const Home = () => {
           <div className="nav-links">
             <Link to="/properties">Browse</Link>
             <Link to="/upload">Sell</Link>
-            <Link to="/map">Map View</Link> {/* ⬅️ ADDED */}
+            <Link to="/map">Map View</Link>
             <Link to="/contact">Contact</Link>
             {user?.role === "admin" && (
               <Link to="/admin" className="active">
@@ -210,33 +210,24 @@ const Home = () => {
                 onChange={(e) => setLocation(e.target.value)}
                 className="search-input"
               />
-              <select
+              <input
+                type="number"
+                placeholder="Min Price (MK)"
                 value={priceMin}
                 onChange={(e) => setPriceMin(e.target.value)}
-                className="search-select"
-              >
-                <option value="">Min Price</option>
-                <option value="0">MK 0</option>
-                <option value="1000000">MK 1M</option>
-                <option value="5000000">MK 5M</option>
-                <option value="10000000">MK 10M</option>
-                <option value="20000000">MK 20M</option>
-                <option value="50000000">MK 50M</option>
-              </select>
-              <select
+                className="search-input"
+                min="0"
+                step="100000"
+              />
+              <input
+                type="number"
+                placeholder="Max Price (MK)"
                 value={priceMax}
                 onChange={(e) => setPriceMax(e.target.value)}
-                className="search-select"
-              >
-                <option value="">Max Price</option>
-                <option value="1000000">MK 1M</option>
-                <option value="5000000">MK 5M</option>
-                <option value="10000000">MK 10M</option>
-                <option value="20000000">MK 20M</option>
-                <option value="50000000">MK 50M</option>
-                <option value="100000000">MK 100M</option>
-                <option value="9999999999">MK 100M+</option>
-              </select>
+                className="search-input"
+                min="0"
+                step="100000"
+              />
               {showBedrooms && (
                 <select
                   value={bedrooms}
@@ -290,7 +281,7 @@ const Home = () => {
                 <Link key={p._id} to={`/property/${p._id}`} className="card">
                   <div className="card-img">
                     {p.images?.[0] ? (
-                      <img src={p.images[0]} alt={p.title} />
+                      <img src={getImageUrl(p.images[0])} alt={p.title} />
                     ) : (
                       <div className="placeholder">No Image</div>
                     )}
@@ -358,7 +349,7 @@ const Home = () => {
                 <Link key={p._id} to={`/property/${p._id}`} className="card">
                   <div className="card-img">
                     {p.images?.[0] ? (
-                      <img src={p.images[0]} alt={p.title} />
+                      <img src={getImageUrl(p.images[0])} alt={p.title} />
                     ) : (
                       <div className="placeholder">No Image</div>
                     )}
@@ -445,7 +436,7 @@ const Home = () => {
           </div>
           <div>
             <h4>Contact</h4>
-            <p>📞 +265 999 123 456</p>
+            <p>📞 +265 885 767 077</p>
             <p>✉️ sokorealestate1@gmail.com</p>
             <p>📍 Lilongwe, Malawi</p>
           </div>
