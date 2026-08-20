@@ -119,7 +119,7 @@ const UploadProperty = () => {
         formDataToSend.append("images", images[i]);
       }
 
-      await axios.post(
+      const response = await axios.post(
         "https://soko-backend-hwvp.onrender.com/api/upload",
         formDataToSend,
         {
@@ -129,6 +129,8 @@ const UploadProperty = () => {
           },
         }
       );
+
+      console.log("Upload response:", response.data);
 
       setSuccess("Property uploaded successfully! Waiting for admin approval.");
       setTimeout(() => {
@@ -148,7 +150,6 @@ const UploadProperty = () => {
       background: "#f8fafc",
       fontFamily: "'Segoe UI', Arial, sans-serif"
     }}>
-      {/* ===== MINI NAV ===== */}
       <nav style={{
         background: "#0f172a",
         padding: "0 20px",
@@ -167,7 +168,6 @@ const UploadProperty = () => {
         </div>
       </nav>
 
-      {/* ===== MAIN FORM ===== */}
       <div style={{ maxWidth: "820px", margin: "0 auto", padding: "24px 16px" }}>
         <div style={{
           background: "#ffffff",
@@ -539,7 +539,7 @@ const UploadProperty = () => {
               </p>
             </div>
 
-            {/* ===== LOCATION PICKER (Mobile-Friendly) ===== */}
+            {/* ===== LOCATION PICKER ===== */}
             <div style={{ marginBottom: "20px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 📍 Pin Property Location
