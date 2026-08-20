@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
+import { getImageUrl } from "../utils/imageUtils";
 
 const Properties = () => {
   const [allProperties, setAllProperties] = useState([]);
@@ -17,16 +18,6 @@ const Properties = () => {
   const [bedrooms, setBedrooms] = useState("");
 
   const showBedrooms = propertyType !== "Land";
-
-  // ===== IMAGE HELPER =====
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    if (imagePath.startsWith("http")) return imagePath;
-    if (imagePath.startsWith("uploads/")) {
-      return `https://soko-backend-hwvp.onrender.com/${imagePath}`;
-    }
-    return `https://soko-backend-hwvp.onrender.com/uploads/${imagePath}`;
-  };
 
   // ===== FETCH PROPERTIES =====
   useEffect(() => {
@@ -538,7 +529,7 @@ const Properties = () => {
         )}
       </div>
 
-      {/* ===== RESPONSIVE STYLES ===== */}
+      {/* ===== RESPONSIVE ===== */}
       <style>{`
         @media (max-width: 768px) {
           .property-card-img {
