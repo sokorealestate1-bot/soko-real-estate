@@ -8,6 +8,26 @@ const {
 } = require("../utils/email");
 
 // =======================
+// Create Property
+// =======================
+const createProperty = async (req, res) => {
+  try {
+    console.log("🟡 Creating property for user:", req.user._id);
+    const property = await Property.create({
+      ...req.body,
+      owner: req.user._id,
+      latitude: req.body.latitude || null,
+      longitude: req.body.longitude || null,
+    });
+    console.log("🟢 Property created:", property._id);
+    res.status(201).json(property);
+  } catch (error) {
+    console.error("🔴 Create property error:", error);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// =======================
 // Get Approved Properties
 // =======================
 const getProperties = async (req, res) => {
@@ -96,7 +116,7 @@ const approveProperty = async (req, res) => {
     const property = await Property.findByIdAndUpdate(
       req.params.id,
       { status: "Approved" },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
@@ -129,7 +149,7 @@ const rejectProperty = async (req, res) => {
     const property = await Property.findByIdAndUpdate(
       req.params.id,
       { status: "Rejected" },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
@@ -199,7 +219,7 @@ const featureProperty = async (req, res) => {
         isFeatured: isFeatured,
         featuredAt: isFeatured ? new Date() : null,
       },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
 
     try {
@@ -239,7 +259,7 @@ const verifyProperty = async (req, res) => {
         isVerified: isVerified,
         verifiedAt: isVerified ? new Date() : null,
       },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
 
     try {
@@ -319,6 +339,7 @@ const updateProperty = async (req, res) => {
 // EXPORTS
 // =======================
 module.exports = {
+  createProperty,
   getProperties,
   getPropertyById,
   getPendingProperties,
