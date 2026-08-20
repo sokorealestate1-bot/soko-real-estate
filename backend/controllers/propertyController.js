@@ -116,7 +116,7 @@ const approveProperty = async (req, res) => {
     const property = await Property.findByIdAndUpdate(
       req.params.id,
       { status: "Approved" },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
@@ -149,7 +149,7 @@ const rejectProperty = async (req, res) => {
     const property = await Property.findByIdAndUpdate(
       req.params.id,
       { status: "Rejected" },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
@@ -219,7 +219,7 @@ const featureProperty = async (req, res) => {
         isFeatured: isFeatured,
         featuredAt: isFeatured ? new Date() : null,
       },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
 
     try {
@@ -259,7 +259,7 @@ const verifyProperty = async (req, res) => {
         isVerified: isVerified,
         verifiedAt: isVerified ? new Date() : null,
       },
-      { new: true }
+      { returnDocument: "after" } // ✅ fixed deprecation
     );
 
     try {
