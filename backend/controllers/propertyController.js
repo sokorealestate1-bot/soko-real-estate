@@ -8,6 +8,26 @@ const {
 } = require("../utils/email");
 
 // =======================
+// Create Property
+// =======================
+const createProperty = async (req, res) => {
+  try {
+    console.log("🟡 Creating property for user:", req.user._id);
+    const property = await Property.create({
+      ...req.body,
+      owner: req.user._id,
+      latitude: req.body.latitude || null,
+      longitude: req.body.longitude || null,
+    });
+    console.log("🟢 Property created:", property._id);
+    res.status(201).json(property);
+  } catch (error) {
+    console.error("🔴 Create property error:", error);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// =======================
 // Get Approved Properties
 // =======================
 const getProperties = async (req, res) => {
@@ -319,6 +339,7 @@ const updateProperty = async (req, res) => {
 // EXPORTS
 // =======================
 module.exports = {
+  createProperty,
   getProperties,
   getPropertyById,
   getPendingProperties,
