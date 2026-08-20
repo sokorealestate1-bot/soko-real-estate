@@ -11,22 +11,25 @@ const {
   createProperty,
 } = require("../controllers/propertyController");
 
-// ===== UPLOAD PROPERTY (with images) =====
+// ===== UPLOAD PROPERTY =====
 router.post(
   "/upload",
   protect,
-  upload.array("images", 10), // "images" must match the field name in frontend
+  upload.array("images", 10), // "images" must match the frontend field name
   async (req, res) => {
     try {
-      // Multer adds the files to req.files
-      // The body fields are in req.body
-      console.log("📸 Files received:", req.files.length);
+      console.log("📸 Files received:", req.files ? req.files.length : 0);
       console.log("📦 Body:", req.body);
+
+      // Ensure files exist
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: "No images uploaded" });
+      }
 
       // Build image paths
       const imagePaths = req.files.map((file) => `uploads/${file.filename}`);
 
-      // Merge with existing form data
+      // Merge with form data
       const propertyData = {
         ...req.body,
         images: imagePaths,
@@ -34,9 +37,7 @@ router.post(
       };
 
       // Create property using the controller
-      const property = await require("../controllers/propertyController").createPropertyDirect(
-        propertyData
-      );
+      const property = await createProperty(propertyData, req.user._id);
 
       res.status(201).json(property);
     } catch (error) {
