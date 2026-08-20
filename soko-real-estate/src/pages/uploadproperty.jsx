@@ -151,15 +151,15 @@ const UploadProperty = () => {
       {/* ===== MINI NAV ===== */}
       <nav style={{
         background: "#0f172a",
-        padding: "0 40px",
-        height: "72px",
+        padding: "0 20px",
+        height: "64px",
         display: "flex",
         alignItems: "center",
         borderBottom: "1px solid #1e293b"
       }}>
         <div style={{ maxWidth: "1200px", width: "100%", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Link to="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
-            <img src={logo} alt="SOKO" style={{ height: "40px" }} />
+            <img src={logo} alt="SOKO" style={{ height: "32px" }} />
           </Link>
           <Link to="/" style={{ color: "#94a3b8", textDecoration: "none", fontSize: "14px", fontWeight: "500" }}>
             ← Back to Home
@@ -168,18 +168,18 @@ const UploadProperty = () => {
       </nav>
 
       {/* ===== MAIN FORM ===== */}
-      <div style={{ maxWidth: "820px", margin: "0 auto", padding: "40px 20px" }}>
+      <div style={{ maxWidth: "820px", margin: "0 auto", padding: "24px 16px" }}>
         <div style={{
           background: "#ffffff",
           borderRadius: "16px",
-          padding: "40px 48px",
+          padding: "24px 20px",
           boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
           border: "1px solid #e2e8f0"
         }}>
           <h1 style={{ fontSize: "28px", fontWeight: "700", color: "#0f172a", marginBottom: "4px" }}>
             Upload Property
           </h1>
-          <p style={{ color: "#64748b", fontSize: "15px", marginBottom: "28px" }}>
+          <p style={{ color: "#64748b", fontSize: "15px", marginBottom: "24px" }}>
             List your property on SOKO Real Estate — reach thousands of buyers and renters in Malawi.
           </p>
 
@@ -190,7 +190,7 @@ const UploadProperty = () => {
               borderRadius: "8px",
               padding: "12px 16px",
               color: "#b91c1c",
-              marginBottom: "20px",
+              marginBottom: "16px",
               fontSize: "14px"
             }}>
               {error}
@@ -204,7 +204,7 @@ const UploadProperty = () => {
               borderRadius: "8px",
               padding: "12px 16px",
               color: "#166534",
-              marginBottom: "20px",
+              marginBottom: "16px",
               fontSize: "14px"
             }}>
               {success}
@@ -213,16 +213,16 @@ const UploadProperty = () => {
 
           <form onSubmit={handleSubmit}>
             {/* ===== SALE / RENT TOGGLE ===== */}
-            <div style={{ marginBottom: "24px" }}>
+            <div style={{ marginBottom: "20px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "8px" }}>
                 Listing Type *
               </label>
-              <div style={{ display: "flex", gap: "12px" }}>
+              <div style={{ display: "flex", gap: "10px" }}>
                 <button
                   type="button"
                   onClick={() => handleSaleRentToggle("sale")}
                   style={{
-                    padding: "10px 32px",
+                    padding: "8px 24px",
                     border: saleRent === "sale" ? "2px solid #14b8a6" : "2px solid #e2e8f0",
                     borderRadius: "8px",
                     background: saleRent === "sale" ? "#14b8a6" : "transparent",
@@ -239,7 +239,7 @@ const UploadProperty = () => {
                   type="button"
                   onClick={() => handleSaleRentToggle("rent")}
                   style={{
-                    padding: "10px 32px",
+                    padding: "8px 24px",
                     border: saleRent === "rent" ? "2px solid #14b8a6" : "2px solid #e2e8f0",
                     borderRadius: "8px",
                     background: saleRent === "rent" ? "#14b8a6" : "transparent",
@@ -253,13 +253,13 @@ const UploadProperty = () => {
                   For Rent
                 </button>
               </div>
-              <p style={{ fontSize: "12px", color: "#94a3b8", marginTop: "6px" }}>
+              <p style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>
                 This determines which search results your property appears in
               </p>
             </div>
 
             {/* ===== PROPERTY TYPE ===== */}
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "16px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Property Type *
               </label>
@@ -269,7 +269,7 @@ const UploadProperty = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "10px 14px",
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "14px",
@@ -294,7 +294,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== TITLE ===== */}
-            <div style={{ marginBottom: "18px" }}>
+            <div style={{ marginBottom: "14px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Property Title *
               </label>
@@ -307,7 +307,7 @@ const UploadProperty = () => {
                 placeholder="e.g. Beautiful 3 Bedroom House in Lilongwe"
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "10px 14px",
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "14px",
@@ -321,7 +321,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== LOCATION ===== */}
-            <div style={{ marginBottom: "18px" }}>
+            <div style={{ marginBottom: "14px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Location *
               </label>
@@ -332,7 +332,7 @@ const UploadProperty = () => {
                 required
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "10px 14px",
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "14px",
@@ -352,7 +352,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== PRICE ===== */}
-            <div style={{ marginBottom: "18px" }}>
+            <div style={{ marginBottom: "14px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Price (MK) *
               </label>
@@ -365,7 +365,7 @@ const UploadProperty = () => {
                 placeholder="e.g. 15000000"
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "10px 14px",
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "14px",
@@ -379,7 +379,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== BEDROOMS & BATHROOMS ===== */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px", marginBottom: "18px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px", marginBottom: "14px" }}>
               <div>
                 <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                   Bedrooms
@@ -392,7 +392,7 @@ const UploadProperty = () => {
                   placeholder="e.g. 3"
                   style={{
                     width: "100%",
-                    padding: "12px 16px",
+                    padding: "10px 14px",
                     border: "1px solid #e2e8f0",
                     borderRadius: "8px",
                     fontSize: "14px",
@@ -416,7 +416,7 @@ const UploadProperty = () => {
                   placeholder="e.g. 2"
                   style={{
                     width: "100%",
-                    padding: "12px 16px",
+                    padding: "10px 14px",
                     border: "1px solid #e2e8f0",
                     borderRadius: "8px",
                     fontSize: "14px",
@@ -431,7 +431,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== DESCRIPTION ===== */}
-            <div style={{ marginBottom: "18px" }}>
+            <div style={{ marginBottom: "14px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Description *
               </label>
@@ -444,7 +444,7 @@ const UploadProperty = () => {
                 placeholder="Describe your property in detail — location, amenities, nearby schools, etc."
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "10px 14px",
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "14px",
@@ -460,7 +460,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== OWNER DETAILS ===== */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px", marginBottom: "18px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px", marginBottom: "14px" }}>
               <div>
                 <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                   Owner Name *
@@ -474,7 +474,7 @@ const UploadProperty = () => {
                   placeholder="Full name"
                   style={{
                     width: "100%",
-                    padding: "12px 16px",
+                    padding: "10px 14px",
                     border: "1px solid #e2e8f0",
                     borderRadius: "8px",
                     fontSize: "14px",
@@ -499,7 +499,7 @@ const UploadProperty = () => {
                   placeholder="0999123456"
                   style={{
                     width: "100%",
-                    padding: "12px 16px",
+                    padding: "10px 14px",
                     border: "1px solid #e2e8f0",
                     borderRadius: "8px",
                     fontSize: "14px",
@@ -514,7 +514,7 @@ const UploadProperty = () => {
             </div>
 
             {/* ===== IMAGES ===== */}
-            <div style={{ marginBottom: "24px" }}>
+            <div style={{ marginBottom: "20px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 Images
               </label>
@@ -522,10 +522,11 @@ const UploadProperty = () => {
                 type="file"
                 multiple
                 accept="image/*"
+                name="images"
                 onChange={handleImageChange}
                 style={{
                   width: "100%",
-                  padding: "12px 16px",
+                  padding: "10px 14px",
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "14px",
@@ -534,12 +535,12 @@ const UploadProperty = () => {
                 }}
               />
               <p style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>
-                You can select multiple images (max 10)
+                You can select multiple images from your device (max 10)
               </p>
             </div>
 
-            {/* ===== LOCATION PICKER ===== */}
-            <div style={{ marginBottom: "24px" }}>
+            {/* ===== LOCATION PICKER (Mobile-Friendly) ===== */}
+            <div style={{ marginBottom: "20px" }}>
               <label style={{ display: "block", fontWeight: "600", color: "#0f172a", fontSize: "14px", marginBottom: "6px" }}>
                 📍 Pin Property Location
               </label>
@@ -548,7 +549,7 @@ const UploadProperty = () => {
                 onLocationChange={handleLocationChange}
               />
               <p style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>
-                Drag the marker or click on the map to pin the exact location of your property.
+                Drag the marker or tap on the map to pin the exact location of your property.
               </p>
             </div>
 
