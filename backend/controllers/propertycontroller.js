@@ -8,16 +8,26 @@ const {
 } = require("../utils/email");
 
 // =======================
-// Create Property
+// Helper: Create Property Directly (for upload route)
 // =======================
-const createProperty = async (req, res) => {
+const createProperty = async (propertyData, userId) => {
+  // This function can be called from the upload route
+  const property = await Property.create({
+    ...propertyData,
+    owner: userId,
+  });
+  return property;
+};
+
+// =======================
+// Create Property (original controller)
+// =======================
+const createPropertyController = async (req, res) => {
   try {
     console.log("🟡 Creating property for user:", req.user._id);
     const property = await Property.create({
       ...req.body,
       owner: req.user._id,
-      latitude: req.body.latitude || null,
-      longitude: req.body.longitude || null,
     });
     console.log("🟢 Property created:", property._id);
     res.status(201).json(property);
@@ -335,8 +345,12 @@ const updateProperty = async (req, res) => {
   }
 };
 
+// =======================
+// EXPORTS
+// =======================
 module.exports = {
-  createProperty,
+  createProperty: createPropertyController,
+  createProperty, // For direct use in upload route
   getProperties,
   getPropertyById,
   getPendingProperties,
