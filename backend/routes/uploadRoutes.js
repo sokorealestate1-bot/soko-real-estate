@@ -2,42 +2,38 @@ const express = require("express");
 const router = express.Router();
 const { protect, adminOnly } = require("../middleware/auth");
 const upload = require("../middleware/upload");
-const {
-  approveProperty,
-  rejectProperty,
-  deleteProperty,
-  featureProperty,
-  verifyProperty,
-  createProperty,
-} = require("../controllers/propertyController");
+const Property = require("../models/Property");
 
 // ===== UPLOAD PROPERTY =====
 router.post(
   "/upload",
   protect,
-  upload.array("images", 10), // "images" must match the frontend field name
+  upload.array("images", 10),
   async (req, res) => {
     try {
       console.log("📸 Files received:", req.files ? req.files.length : 0);
-      console.log("📦 Body:", req.body);
-
-      // Ensure files exist
-      if (!req.files || req.files.length === 0) {
-        return res.status(400).json({ message: "No images uploaded" });
-      }
+      console.log("📦 Body keys:", Object.keys(req.body));
 
       // Build image paths
-      const imagePaths = req.files.map((file) => `uploads/${file.filename}`);
+      let imagePaths = [];
+      if (req.files && req.files.length > 0) {
+        imagePaths = req.files.map((file) => `uploads/${file.filename}`);
+        console.log("📸 Image paths:", imagePaths);
+      } else {
+        console.warn("⚠️ No images uploaded");
+      }
 
-      // Merge with form data
+      // Create property with or without images
       const propertyData = {
         ...req.body,
         images: imagePaths,
         owner: req.user._id,
+        latitude: req.body.latitude || null,
+        longitude: req.body.longitude || null,
       };
 
-      // Create property using the controller
-      const property = await createProperty(propertyData, req.user._id);
+      const property = await Property.create(propertyData);
+      console.log("✅ Property created:", property._id);
 
       res.status(201).json(property);
     } catch (error) {
@@ -48,6 +44,14 @@ router.post(
 );
 
 // ===== ADMIN ROUTES =====
+const {
+  approveProperty,
+  rejectProperty,
+  deleteProperty,
+  featureProperty,
+  verifyProperty,
+} = require("../controllers/propertyController");
+
 router.patch("/admin/feature/:id", protect, adminOnly, featureProperty);
 router.patch("/admin/verify/:id", protect, adminOnly, verifyProperty);
 router.patch("/approve/:id", protect, adminOnly, approveProperty);

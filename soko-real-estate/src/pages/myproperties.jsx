@@ -1,8 +1,8 @@
+import { getImageUrl } from "../utils/imageUtils";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
-import { getImageUrl } from "../utils/imageUtils";
 
 const MyProperties = () => {
   const navigate = useNavigate();
@@ -244,14 +244,16 @@ const MyProperties = () => {
                 border: "1px solid #e2e8f0",
                 transition: "all 0.3s ease"
               }}>
+                {/* Image */}
                 <div style={{ position: "relative", height: "200px", background: "#e2e8f0", overflow: "hidden" }}>
                   {p.images?.[0] ? (
-                    <img src={getImageUrl(p.images[0])} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img src={p.images[0]} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   ) : (
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#94a3b8" }}>
                       No Image
                     </div>
                   )}
+                  {/* Featured Badge */}
                   {p.isFeatured && (
                     <span style={{
                       position: "absolute",
@@ -266,6 +268,7 @@ const MyProperties = () => {
                       textTransform: "uppercase"
                     }}>⭐ Featured</span>
                   )}
+                  {/* Verified Badge */}
                   {p.isVerified && (
                     <span style={{
                       position: "absolute",
@@ -280,6 +283,7 @@ const MyProperties = () => {
                       textTransform: "uppercase"
                     }}>✓ Verified</span>
                   )}
+                  {/* Status Badge */}
                   <span style={{
                     position: "absolute",
                     top: "12px",
@@ -291,6 +295,7 @@ const MyProperties = () => {
                     textTransform: "uppercase",
                     ...getStatusBadgeStyle(p.status)
                   }}>{p.status}</span>
+                  {/* Sale/Rent Badge */}
                   <span style={{
                     position: "absolute",
                     bottom: "50px",
@@ -303,6 +308,7 @@ const MyProperties = () => {
                     fontWeight: "600",
                     textTransform: "uppercase"
                   }}>{getSaleRentLabel(p.category)}</span>
+                  {/* Price */}
                   <span style={{
                     position: "absolute",
                     bottom: "12px",
@@ -316,6 +322,7 @@ const MyProperties = () => {
                   }}>MK {p.price.toLocaleString()}</span>
                 </div>
 
+                {/* Body */}
                 <div style={{ padding: "20px" }}>
                   <h3 style={{
                     fontSize: "17px",
@@ -331,6 +338,7 @@ const MyProperties = () => {
                     <span>🚿 {p.bathrooms}</span>
                   </div>
 
+                  {/* Action Buttons */}
                   <div style={{
                     marginTop: "16px",
                     paddingTop: "14px",
@@ -384,6 +392,7 @@ const MyProperties = () => {
                     </button>
                   </div>
 
+                  {/* Created date */}
                   <p style={{
                     marginTop: "10px",
                     fontSize: "11px",
@@ -397,6 +406,7 @@ const MyProperties = () => {
           </div>
         )}
 
+        {/* ===== SPINNER ANIMATION ===== */}
         <style>{`
           @keyframes spin {
             to { transform: rotate(360deg); }
