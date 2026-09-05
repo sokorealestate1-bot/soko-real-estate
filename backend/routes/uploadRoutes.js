@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { protect, adminOnly } = require("../middleware/auth");
 const upload = require("../middleware/upload");
-const Property = require("../models/Property");
 
 // ===== UPLOAD PROPERTY =====
 router.post(
@@ -23,7 +22,8 @@ router.post(
         console.warn("⚠️ No images uploaded");
       }
 
-      // Create property with or without images
+      // Create property using the model directly
+      const Property = require("../models/Property");
       const propertyData = {
         ...req.body,
         images: imagePaths,
