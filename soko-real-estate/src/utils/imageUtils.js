@@ -1,5 +1,3 @@
-// src/utils/imageUtils.js
-
 const BACKEND_URL = "https://soko-backend-hwvp.onrender.com";
 
 export const getImageUrl = (imagePath) => {
