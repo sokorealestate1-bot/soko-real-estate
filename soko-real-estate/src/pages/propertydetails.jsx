@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
@@ -14,6 +14,10 @@ const PropertyDetails = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [similarProperties, setSimilarProperties] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Swipe tracking
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   // Detect mobile
   useEffect(() => {
@@ -66,6 +70,32 @@ const PropertyDetails = () => {
         prev === 0 ? property.images.length - 1 : prev - 1
       );
     }
+  };
+
+  // ===== SWIPE HANDLERS =====
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].screenX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.changedTouches[0].screenX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeDistance = touchStartX.current - touchEndX.current;
+    const minSwipe = 50; // minimum pixels to count as swipe
+
+    if (swipeDistance > minSwipe) {
+      // Swiped left → next image
+      nextImage();
+    } else if (swipeDistance < -minSwipe) {
+      // Swiped right → previous image
+      prevImage();
+    }
+
+    // Reset
+    touchStartX.current = 0;
+    touchEndX.current = 0;
   };
 
   const getSaleRentLabel = (category) => {
@@ -272,7 +302,6 @@ const PropertyDetails = () => {
           ← Back to results
         </button>
 
-        {/* Responsive Grid: 1 column on mobile, 2 columns on PC */}
         <div
           style={{
             display: "grid",
@@ -282,7 +311,7 @@ const PropertyDetails = () => {
         >
           {/* ===== LEFT COLUMN ===== */}
           <div>
-            {/* Image Gallery */}
+            {/* Image Gallery with Swipe Support */}
             <div
               style={{
                 background: "#ffffff",
@@ -293,10 +322,15 @@ const PropertyDetails = () => {
               }}
             >
               <div
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
                 style={{
                   position: "relative",
                   height: isMobile ? "240px" : "420px",
                   background: "#e2e8f0",
+                  touchAction: "pan-y", // Allow vertical scroll, capture horizontal swipe
+                  userSelect: "none",
                 }}
               >
                 {property.images && property.images.length > 0 ? (
@@ -304,10 +338,13 @@ const PropertyDetails = () => {
                     <img
                       src={getImageUrl(property.images[currentImage])}
                       alt={property.title}
+                      draggable={false}
                       style={{
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
+                        userSelect: "none",
+                        WebkitUserDrag: "none",
                       }}
                     />
 
@@ -353,6 +390,25 @@ const PropertyDetails = () => {
                         </span>
                       )}
                     </div>
+
+                    {/* Image Counter (top right) */}
+                    {property.images.length > 1 && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: isMobile ? "10px" : "16px",
+                          right: isMobile ? "10px" : "16px",
+                          background: "rgba(0,0,0,0.6)",
+                          color: "#fff",
+                          padding: "4px 12px",
+                          borderRadius: "50px",
+                          fontSize: isMobile ? "11px" : "12px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {currentImage + 1} / {property.images.length}
+                      </div>
+                    )}
 
                     {/* Navigation Arrows */}
                     {property.images.length > 1 && (
@@ -452,6 +508,20 @@ const PropertyDetails = () => {
               </div>
             </div>
 
+            {/* Swipe hint (only on mobile) */}
+            {isMobile && property.images && property.images.length > 1 && (
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "12px",
+                  color: "#94a3b8",
+                  marginTop: "8px",
+                }}
+              >
+                👆 Swipe left or right to see more photos
+              </p>
+            )}
+
             {/* Property Info Card */}
             <div
               style={{
@@ -531,7 +601,6 @@ const PropertyDetails = () => {
                 📍 {property.location}
               </p>
 
-              {/* Price + Tags */}
               <div
                 style={{
                   display: "flex",
@@ -589,7 +658,6 @@ const PropertyDetails = () => {
                 </span>
               </div>
 
-              {/* Bedrooms & Bathrooms */}
               <div
                 style={{
                   display: "flex",
@@ -627,7 +695,6 @@ const PropertyDetails = () => {
                 {property.description}
               </p>
 
-              {/* Map */}
               <div style={{ marginTop: isMobile ? "20px" : "24px" }}>
                 <h3
                   style={{
@@ -646,7 +713,6 @@ const PropertyDetails = () => {
                 />
               </div>
 
-              {/* Meta info */}
               <div
                 style={{
                   marginTop: "20px",
@@ -677,7 +743,7 @@ const PropertyDetails = () => {
             </div>
           </div>
 
-          {/* ===== RIGHT COLUMN (Now fully sticky on PC) ===== */}
+          {/* ===== RIGHT COLUMN (Fully sticky on PC) ===== */}
           <div
             style={{
               position: isMobile ? "static" : "sticky",
