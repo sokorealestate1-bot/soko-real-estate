@@ -677,8 +677,15 @@ const PropertyDetails = () => {
             </div>
           </div>
 
-          {/* ===== RIGHT COLUMN ===== */}
-          <div>
+          {/* ===== RIGHT COLUMN (Now fully sticky on PC) ===== */}
+          <div
+            style={{
+              position: isMobile ? "static" : "sticky",
+              top: isMobile ? "auto" : "100px",
+              alignSelf: "start",
+              marginTop: isMobile ? "16px" : "0",
+            }}
+          >
             {/* Contact Owner Card */}
             <div
               style={{
@@ -687,9 +694,6 @@ const PropertyDetails = () => {
                 padding: isMobile ? "20px 16px" : "28px",
                 border: "1px solid #e2e8f0",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
-                position: isMobile ? "static" : "sticky",
-                top: isMobile ? "auto" : "100px",
-                marginTop: isMobile ? "16px" : "0",
               }}
             >
               <h3
