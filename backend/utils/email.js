@@ -1,7 +1,5 @@
-const sgMail = require('@sendgrid/mail');
-
-// Set SendGrid API key from environment variables
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ===== Send Verification Email =====
 const sendVerificationEmail = async (email, name, token) => {
@@ -10,7 +8,7 @@ const sendVerificationEmail = async (email, name, token) => {
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_FROM,
+      from: 'onboarding@resend.dev', // Changed for Resend free tier testing
       subject: "Verify Your Email - SOKO Real Estate",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -30,12 +28,11 @@ const sendVerificationEmail = async (email, name, token) => {
       `,
     };
 
-    await sgMail.send(msg);
+    await resend.emails.send(msg); // Changed to Resend
     console.log(`✅ Verification email sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid Error (Verification):', error.response?.body || error.message);
-    // Return error but don't throw – registration should still succeed
+    console.error('❌ Resend Error (Verification):', error.response?.body || error.message);
     return { success: false, error: error.response?.body || error.message };
   }
 };
@@ -47,7 +44,7 @@ const sendPasswordResetEmail = async (email, name, token) => {
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_FROM,
+      from: 'onboarding@resend.dev', // Changed for Resend free tier testing
       subject: "Reset Your Password - SOKO Real Estate",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -68,11 +65,11 @@ const sendPasswordResetEmail = async (email, name, token) => {
       `,
     };
 
-    await sgMail.send(msg);
+    await resend.emails.send(msg); // Changed to Resend
     console.log(`✅ Password reset email sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid Error (Password Reset):', error.response?.body || error.message);
+    console.error('❌ Resend Error (Password Reset):', error.response?.body || error.message);
     return { success: false, error: error.response?.body || error.message };
   }
 };
@@ -84,7 +81,7 @@ const sendPropertyApprovedEmail = async (email, name, propertyTitle) => {
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_FROM,
+      from: 'onboarding@resend.dev', // Changed for Resend free tier testing
       subject: "✅ Your Property Has Been Approved - SOKO Real Estate",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -104,11 +101,11 @@ const sendPropertyApprovedEmail = async (email, name, propertyTitle) => {
       `,
     };
 
-    await sgMail.send(msg);
+    await resend.emails.send(msg); // Changed to Resend
     console.log(`✅ Property approved email sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid Error (Property Approved):', error.response?.body || error.message);
+    console.error('❌ Resend Error (Property Approved):', error.response?.body || error.message);
     return { success: false, error: error.response?.body || error.message };
   }
 };
@@ -118,7 +115,7 @@ const sendPropertyRejectedEmail = async (email, name, propertyTitle) => {
   try {
     const msg = {
       to: email,
-      from: process.env.EMAIL_FROM,
+      from: 'onboarding@resend.dev', // Changed for Resend free tier testing
       subject: "❌ Property Update - SOKO Real Estate",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -132,11 +129,11 @@ const sendPropertyRejectedEmail = async (email, name, propertyTitle) => {
       `,
     };
 
-    await sgMail.send(msg);
+    await resend.emails.send(msg); // Changed to Resend
     console.log(`✅ Property rejected email sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid Error (Property Rejected):', error.response?.body || error.message);
+    console.error('❌ Resend Error (Property Rejected):', error.response?.body || error.message);
     return { success: false, error: error.response?.body || error.message };
   }
 };
@@ -148,7 +145,7 @@ const sendPropertyFeaturedEmail = async (email, name, propertyTitle) => {
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_FROM,
+      from: 'onboarding@resend.dev', // Changed for Resend free tier testing
       subject: "⭐ Your Property is Now Featured - SOKO Real Estate",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -167,11 +164,11 @@ const sendPropertyFeaturedEmail = async (email, name, propertyTitle) => {
       `,
     };
 
-    await sgMail.send(msg);
+    await resend.emails.send(msg); // Changed to Resend
     console.log(`✅ Property featured email sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid Error (Property Featured):', error.response?.body || error.message);
+    console.error('❌ Resend Error (Property Featured):', error.response?.body || error.message);
     return { success: false, error: error.response?.body || error.message };
   }
 };
@@ -183,7 +180,7 @@ const sendPropertyVerifiedEmail = async (email, name, propertyTitle) => {
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_FROM,
+      from: 'onboarding@resend.dev', // Changed for Resend free tier testing
       subject: "✅ Your Property Has Been Verified - SOKO Real Estate",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -202,11 +199,11 @@ const sendPropertyVerifiedEmail = async (email, name, propertyTitle) => {
       `,
     };
 
-    await sgMail.send(msg);
+    await resend.emails.send(msg); // Changed to Resend
     console.log(`✅ Property verified email sent to: ${email}`);
     return { success: true };
   } catch (error) {
-    console.error('❌ SendGrid Error (Property Verified):', error.response?.body || error.message);
+    console.error('❌ Resend Error (Property Verified):', error.response?.body || error.message);
     return { success: false, error: error.response?.body || error.message };
   }
 };
