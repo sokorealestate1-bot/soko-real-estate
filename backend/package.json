@@ -26,10 +26,11 @@
     "mongoose": "^9.8.0",
     "multer": "^2.2.0",
     "multer-storage-cloudinary": "^2.2.1",
+    "multer-storage-cloudinary-v2": "^1.0.3",
     "nodemailer": "^9.0.3",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "resend": "^6.33.0",
+    "resend": "^6.34.1",
     "uuid": "^14.0.1"
   }
 }
